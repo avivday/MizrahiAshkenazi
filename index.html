@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מה התכוונו?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="ashkenazi">
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <main class="container">
+
+    <!-- Toggle -->
+    <div class="toggle-wrap">
+      <span class="toggle-label label-ashkenazi">אשכנזי</span>
+      <button class="toggle-btn" id="toggleBtn" aria-pressed="false" aria-label="מעבר בין מזרחי לאשכנזי">
+        <span class="toggle-thumb"></span>
+      </button>
+      <span class="toggle-label label-mizrahi">מזרחי</span>
+    </div>
+
+    <!-- Header -->
+    <header class="hero">
+      <p class="hero-sub">למה</p>
+      <h1 class="hero-title" id="heroTitle">אשכנזים</h1>
+      <p class="hero-sub">מתכוונים כשהם אומרים</p>
+    </header>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <div class="search-input-wrap">
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div class="search-placeholder" id="searchPlaceholder" aria-hidden="true"></div>
+        </div>
+        <button class="search-btn" id="searchBtn" aria-label="חפש">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <!-- Result -->
+    <div class="result-wrap" id="resultWrap" aria-live="polite">
+      <div class="result-card" id="resultCard">
+        <div class="result-loader" id="resultLoader">
+          <span></span><span></span><span></span>
+        </div>
+        <p class="result-text" id="resultText"></p>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
