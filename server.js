@@ -30,15 +30,18 @@ The user wants to know about this ${isMizrahi ? 'Mizrahi' : 'Ashkenazi'} express
 
 CRITICAL: Before writing, verify the exact authentic meaning of "${word}". Do not hallucinate or merge it with similar-sounding words.
 
-Respond in exactly this format (no markdown, no bullet points, no intro):
-[Line 1]: One short, punchy Hebrew sentence explaining exactly what it means and when to use it — direct, like a friend translating for you.
-[Line 2]: A funny, realistic Hebrew example sentence of someone saying it in real life, in quotes.
-
 Reference examples of the format (do not copy these, just match the style):
 נו שוין — כבר מזמן, בא נזוז
 "נו שוין, מתי אתה מגיע?"
 פנאני — בן אדם פתטי שמגזים עם עצמו
-"הוא לבש את כל התכשיטים, אחד פנאני"`;
+"הוא לבש את כל התכשיטים, אחד פנאני"
+
+Respond in exactly this format (no markdown, no bullet points, no intro, but the example can have quotes):
+[Line 1]: One short, punchy Hebrew sentence explaining exactly what it means and when to use it — direct, like a friend translating for you.
+[Line 2]: A funny, realistic Hebrew example sentence of someone saying it in real life, in quotes.
+
+Make sure to add one example only after explaining it.
+`;
 
   try {
     const apiRes = await fetch(
@@ -48,7 +51,7 @@ Reference examples of the format (do not copy these, just match the style):
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.75, maxOutputTokens: 400 },
+          generationConfig: { temperature: 0.25, maxOutputTokens: 1500 },
         }),
       }
     );
