@@ -1,40 +1,33 @@
 /* ─── Config ────────────────────────────────────────────────────────────── */
-const SUGGESTIONS = {
-  ashkenazi: [
-    'נו, שוין',
-    'האק נישט אין טשייניק ',
-    'גגנגן',
-    'פון אונזרר',
-  ],
-  mizrahi: [
-    'מחלוטה',
-    'צ׳לה בלה',
-    'טבחה',
-    'שופוני יא נאס',
-    'פנאני',
-  ],
+const PLACEHOLDER_WORDS = {
+  ashkenazi: ['נו, שוין', 'האק נישט אין טשייניק', 'גגנגן', 'פון אונזרר'],
+  mizrahi:   ['מחלוטה', 'צ׳לה בלה', 'טבחה', 'שופוני יא נאס', 'פנאני'],
+};
+
+const CHIPS = {
+  ashkenazi: ['נו שוין', 'פון אונזרר', 'האק נישט אין טשייניק', 'שלעפן'],
+  mizrahi:   ['יאללה', 'וואלה', 'פנאני', 'שופוני יא נאס'],
 };
 
 /* ─── State ─────────────────────────────────────────────────────────────── */
 let isMizrahi = false;
 
 /* ─── DOM ───────────────────────────────────────────────────────────────── */
-const body          = document.body;
-const toggleBtn     = document.getElementById('toggleBtn');
-const heroTitle     = document.getElementById('heroTitle');
-const searchInput   = document.getElementById('searchInput');
+const body              = document.body;
+const toggleBtn         = document.getElementById('toggleBtn');
+const heroTitle         = document.getElementById('heroTitle');
+const searchInput       = document.getElementById('searchInput');
 const searchPlaceholder = document.getElementById('searchPlaceholder');
-const searchBtn     = document.getElementById('searchBtn');
-const resultWrap    = document.getElementById('resultWrap');
-const resultCard    = document.getElementById('resultCard');
-const resultLoader  = document.getElementById('resultLoader');
-const resultText    = document.getElementById('resultText');
+const searchBtn         = document.getElementById('searchBtn');
+const chipsEl           = document.getElementById('chips');
+const resultCard        = document.getElementById('resultCard');
+const resultLoader      = document.getElementById('resultLoader');
+const resultText        = document.getElementById('resultText');
 
 /* ─── Toggle ────────────────────────────────────────────────────────────── */
 toggleBtn.addEventListener('click', () => {
   isMizrahi = !isMizrahi;
   toggleBtn.setAttribute('aria-pressed', isMizrahi);
-
   body.classList.toggle('ashkenazi', !isMizrahi);
   body.classList.toggle('mizrahi',    isMizrahi);
 
@@ -44,18 +37,38 @@ toggleBtn.addEventListener('click', () => {
     heroTitle.classList.remove('switching');
   }, 160);
 
+  searchInput.value = '';
   hideResult();
   restartPlaceholder();
+  renderChips();
 });
+
+/* ─── Chips ─────────────────────────────────────────────────────────────── */
+function renderChips() {
+  const mode  = isMizrahi ? 'mizrahi' : 'ashkenazi';
+  const words = CHIPS[mode];
+  chipsEl.innerHTML = '';
+  words.forEach(word => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = word;
+    btn.addEventListener('click', () => {
+      searchInput.value = word;
+      searchPlaceholder.style.opacity = '0';
+      doSearch();
+    });
+    chipsEl.appendChild(btn);
+  });
+}
 
 /* ─── Animated placeholder ──────────────────────────────────────────────── */
 let placeholderTimeout = null;
-let phIndex = 0;
+let phIndex   = 0;
 let phCharIdx = 0;
 let phDeleting = false;
 
 function currentSuggestions() {
-  return isMizrahi ? SUGGESTIONS.mizrahi : SUGGESTIONS.ashkenazi;
+  return isMizrahi ? PLACEHOLDER_WORDS.mizrahi : PLACEHOLDER_WORDS.ashkenazi;
 }
 
 function renderPlaceholder(text) {
@@ -77,7 +90,7 @@ function tickPlaceholder() {
     renderPlaceholder(word.slice(0, phCharIdx));
     if (phCharIdx >= word.length) {
       phDeleting = true;
-      placeholderTimeout = setTimeout(tickPlaceholder, 1600);
+      placeholderTimeout = setTimeout(tickPlaceholder, 1800);
     } else {
       placeholderTimeout = setTimeout(tickPlaceholder, 85 + Math.random() * 45);
     }
@@ -89,16 +102,16 @@ function tickPlaceholder() {
       phIndex++;
       placeholderTimeout = setTimeout(tickPlaceholder, 400);
     } else {
-      placeholderTimeout = setTimeout(tickPlaceholder, 45 + Math.random() * 25);
+      placeholderTimeout = setTimeout(tickPlaceholder, 40 + Math.random() * 25);
     }
   }
 }
 
 function restartPlaceholder() {
   clearTimeout(placeholderTimeout);
-  phIndex     = 0;
-  phCharIdx   = 0;
-  phDeleting  = false;
+  phIndex    = 0;
+  phCharIdx  = 0;
+  phDeleting = false;
   renderPlaceholder('');
   placeholderTimeout = setTimeout(tickPlaceholder, 600);
 }
@@ -161,4 +174,5 @@ function hideResult() {
 }
 
 /* ─── Init ──────────────────────────────────────────────────────────────── */
+renderChips();
 restartPlaceholder();

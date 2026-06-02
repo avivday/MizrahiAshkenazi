@@ -214,8 +214,14 @@ body.mizrahi .toggle-thumb {
   box-shadow: 0 4px 32px rgba(0,0,0,.1), 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
-.search-input {
+.search-input-wrap {
   flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-input {
+  width: 100%;
   background: transparent;
   border: none;
   outline: none;
@@ -232,7 +238,7 @@ body.mizrahi .toggle-thumb {
 
 .search-placeholder {
   position: absolute;
-  inset-inline-end: 22px;
+  right: 22px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
@@ -243,6 +249,7 @@ body.mizrahi .toggle-thumb {
   opacity: .7;
   z-index: 0;
   direction: rtl;
+  text-align: right;
 }
 
 .search-placeholder .cursor {
@@ -275,6 +282,42 @@ body.mizrahi .toggle-thumb {
 
 .search-btn:hover { opacity: .88; transform: scale(1.04); }
 .search-btn:active { transform: scale(.97); }
+
+/* ─── Chips ─────────────────────────────────────────────────────────────── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  justify-content: flex-end;
+  direction: rtl;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--sub);
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition),
+              color .15s, transform .15s;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.chip:active { transform: translateY(0) scale(.97); }
 
 /* ─── Result ────────────────────────────────────────────────────────────── */
 .result-wrap {
