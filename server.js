@@ -25,11 +25,13 @@ app.post('/api/explain', async (req, res) => {
     return res.status(400).json({ error: 'Invalid input' });
   }
 
-  const prompt = `אתה מסביר ביטויי סלנג בעברית בצורה קצרה, מצחיקה ומדויקת.
-המשתמש שאל על ביטוי ${mode === 'מזרחי' ? 'מזרחי' : 'אשכנזי'}: "${word}"
+  const prompt = `You are an expert in Israeli Hebrew slang — both Ashkenazi Yiddish-influenced expressions and Mizrahi Arabic-influenced street slang.
 
-ענה במשפט אחד בלבד בעברית, בצורה סתמית-מצחיקה שמסבירה מה הביטוי אומר באמת.
-אל תוסיף כותרות, מספרים, או הסברים נוספים — רק משפט אחד.`;
+The user asked about a ${mode === 'מזרחי' ? 'Mizrahi' : 'Ashkenazi'} Hebrew slang expression: "${word}"
+
+Write ONE clear, witty sentence in Hebrew that explains what this expression actually means and when people use it.
+Be specific and accurate — explain the real meaning, not just vague words.
+Write only the explanation sentence, nothing else, no quotes, no bullet points.`;
 
   try {
     const apiRes = await fetch(
@@ -39,7 +41,7 @@ app.post('/api/explain', async (req, res) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.85, maxOutputTokens: 150 },
+          generationConfig: { temperature: 0.75, maxOutputTokens: 400 },
         }),
       }
     );
